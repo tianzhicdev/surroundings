@@ -6,6 +6,7 @@ import org.bitcoinj.store.MemoryBlockStore;
 import org.bitcoinj.utils.BlockFileLoader;
 
 import java.io.File;
+import java.util.Arrays;
 
 public class BlockchainReader {
     public static void main(String[] args) {
@@ -14,14 +15,14 @@ public class BlockchainReader {
             NetworkParameters params = MainNetParams.get();
 
             // Path to the Bitcoin Core block storage directory
-            File blocksDir = new File("/Users/biubiu/Bitcoin/blocks/blk00243.dat"); // Replace with your actual path
+            File blocksDir = new File("/Users/biubiu/projects/surroundings/btccore_reader/"); // Replace with your actual path
 
             // Create a memory-based block store (not persistent)
             BlockStore blockStore = new MemoryBlockStore(params);
             BlockChain chain = new BlockChain(params, blockStore);
 
             // Load blocks from the blkNNNNN.dat files in the blocks directory
-            BlockFileLoader loader = new BlockFileLoader(params, blocksDir);
+            BlockFileLoader loader = new BlockFileLoader(params, Arrays.stream(blocksDir.listFiles()).toList());
 
             // Iterate through each block in the blockchain
             for (Block block : loader) {
